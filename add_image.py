@@ -10,7 +10,11 @@ JSON_DIR = "text_json"
 # Base URLs for image links
 IMAGE_URL_TEMPLATES = [
     "https://www.yarnspirations.com/cdn/shop/files/{id}.jpg",
-    "https://www.yarnspirations.com/cdn/shop/products/{id}.jpg"
+    "https://www.yarnspirations.com/cdn/shop/products/{id}.jpg",
+    "https://www.yarnspirations.com/cdn/shop/products/{id}-1.jpg",
+    "https://www.yarnspirations.com/cdn/shop/files/{id}-1.jpg",
+    "https://www.yarnspirations.com/cdn/shop/products/{id}-2.jpg",
+    "https://www.yarnspirations.com/cdn/shop/files/{id}-2.jpg",
 ]
 
 def check_image_url(id):
@@ -84,7 +88,6 @@ def main():
                  if f.endswith('.json') and os.path.isfile(os.path.join(json_dir, f))]
     
     print(f"Found {len(json_files)} JSON files to process")
-    json_files = json_files[:1]
     
     # Process files in parallel
     results = []
