@@ -1,0 +1,7 @@
+text_json_old/
+data/task_b_data.json
+data/mc_data.json
+
+# Environment variables (API keys)
+.env
+.env.local
