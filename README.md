@@ -172,7 +172,7 @@ We evaluate a diverse set of vision-language models (VLMs) spanning both open-so
 ### Using Pre-collected Data
 
 The benchmark includes pre-collected test datasets:
-- `data/crochet_pattern_by_project/` - Crochet patterns organized by project type for Task A
+- `data/crochet_pattern_by_project/` - Crochet patterns organized by project type for Task A and Task C
 - `data/mc_data.json.zip` - Multiple choice data for Task B (must be unzipped before use)
 - `data/project_level_test.json` - Project-level test data for Task D
 - `data/step_level_test_*.json` - Step-level test data for Task D (organized by step position)
@@ -200,7 +200,7 @@ unzip mc_data.json.zip
    ```bash
    python data_preprocessing.py
    ```
-   
+
 4. **Add images** to the collected data:
    ```bash
    python add_image.py
