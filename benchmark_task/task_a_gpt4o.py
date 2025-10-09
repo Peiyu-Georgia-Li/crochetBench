@@ -28,7 +28,7 @@ headers = {
 }
 
 # Default model settings (can be overridden by command line arguments)
-SELECTED_MODEL = "gpt-4o-mini"  # Default model
+SELECTED_MODEL = "gpt-4o"  # Default model
 
 # --- Directories ---
 json_dir = "../data/crochet_pattern_by_project/"  # input JSONs
@@ -458,8 +458,8 @@ def main():
     parser.add_argument('file', nargs='?', help='Specific JSON file to process')
     parser.add_argument('--analyze', action='store_true', help='Only analyze and find patterns missing abbreviations')
     parser.add_argument('--force', action='store_true', help='Force regeneration of missing patterns file')
-    parser.add_argument('--model', choices=['gpt-4o-mini', 'gpt-4-vision-preview', 'gpt-4o'], default='gpt-4o-mini',
-                        help='OpenAI model to use for vision processing (default: gpt-4o-mini)')
+    parser.add_argument('--model',default='gpt-4o',
+                        help='OpenAI model to use for vision processing (default: gpt-4o)')
     parser.add_argument('--resume', action='store_true', help='Resume processing from last checkpoint without regenerating missing files')
     
     args = parser.parse_args()

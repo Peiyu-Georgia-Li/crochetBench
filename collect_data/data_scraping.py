@@ -8,8 +8,8 @@ import os
 import requests
 from selenium.webdriver.chrome.options import Options
 
-# PDF folder (inside Docker container)
-download_dir = "/app/input_file/{project_type}"
+# PDF folder 
+download_dir = "../data/pdf_file/{project_type}"
 if not os.path.exists(download_dir):
     os.makedirs(download_dir)
 

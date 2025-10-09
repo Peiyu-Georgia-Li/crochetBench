@@ -196,12 +196,17 @@ unzip mc_data.json.zip
    python cli.py --project-type "Hats" --pages 3
    ```
 
-3. **Add images** to the collected data:
+3. **Preprocess the collected data**:
+   ```bash
+   python data_preprocessing.py
+   ```
+   
+4. **Add images** to the collected data:
    ```bash
    python add_image.py
    ```
 
-4. **Create multiple-choice dataset** for Task B:
+5. **Create multiple-choice dataset** for Task B:
    ```bash
    python create_mc_dataset.py
    ```
@@ -363,6 +368,7 @@ crochetBench/
 ├── collect_data/                # Data collection utilities
 │   ├── cli.py                  # CLI tool for scraping patterns
 │   ├── data_scraping.py        # Web scraping functions
+│   ├── data_preprocessing.py   # Data preprocessing functions
 │   ├── add_image.py            # Image download utility
 │   └── create_mc_dataset.py    # Multiple choice dataset builder
 │
