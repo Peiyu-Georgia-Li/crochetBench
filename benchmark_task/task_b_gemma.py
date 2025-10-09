@@ -16,9 +16,9 @@ from tqdm import tqdm
 
 # Configure argument parser
 parser = argparse.ArgumentParser(description='Test Gemma model on multiple-choice dataset')
-parser.add_argument('--input_file', type=str, default='../mc_dataset.json',
+parser.add_argument('--input_file', type=str, default='../data/mc_dataset.json',
                     help='Input multiple-choice dataset file')
-parser.add_argument('--output_file', type=str, default='gemma_mc_results.json',
+parser.add_argument('--output_file', type=str, default='task_b_gemma.json',
                     help='Output results file')
 parser.add_argument('--max_samples', type=int, default=None,
                     help='Maximum number of samples to evaluate (None for all)')
@@ -60,7 +60,7 @@ def process_sample(sample, gemma_pipe):
         image = Image.open(BytesIO(response.content)).convert("RGB")
         
         # Format options for the prompt - use the same format as BLIP2 script
-        options_text = "\n".join([f"({opt['label']}) {opt['instructions'][:300]}..." for opt in sample['options']])
+        options_text = "\n".join([f"({opt['label']}) {opt['instructions']}" for opt in sample['options']])
         
         # Create the prompt - match the BLIP2 format exactly
         prompt = f"""You are a crochet expert.

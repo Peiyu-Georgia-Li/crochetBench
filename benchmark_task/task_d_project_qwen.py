@@ -54,11 +54,11 @@ processor = AutoProcessor.from_pretrained("Qwen/Qwen2-VL-7B-Instruct")
 model = AutoModelForVision2Seq.from_pretrained("Qwen/Qwen2-VL-7B-Instruct").to(device)
 
 # --- Directories ---
-output_dir = "./generated_dsl_qwen/"  # output JSONs
+output_dir = "./task_d_project_qwen/"  # output JSONs
 os.makedirs(output_dir, exist_ok=True)
 
-json_file = 'selected_crochet_patterns_3.json'
-json_dir='/store01/nchawla/pli9/crochet/'
+json_file = 'project_level_test.json'
+json_dir='../data/'
 # --- Iterate over JSON files ---
 
 json_path = os.path.join(json_dir, json_file)

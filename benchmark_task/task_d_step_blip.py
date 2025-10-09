@@ -12,9 +12,9 @@ from transformers import Blip2Processor, Blip2ForConditionalGeneration
 parser = argparse.ArgumentParser(description='Translate natural language crochet instructions to CrochetPARADE DSL using BLIP')
 parser.add_argument('--model_path', type=str, default="Salesforce/blip2-flan-t5-xl",
                     help='BLIP model to use (default: Salesforce/blip2-flan-t5-xl)')
-parser.add_argument('--input_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_patterns_part4.json",
+parser.add_argument('--input_file', type=str, default="../data/step_level_test_1_2.json",
                     help='Path to the input JSON file containing crochet patterns')
-parser.add_argument('--output_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_dsl_translations_blip_part4.json",
+parser.add_argument('--output_dir', type=str, default="./task_d_step_blip/",
                     help='Path to save the translated DSL outputs')
 parser.add_argument('--pattern_index', type=int, default=None,
                     help='Index of a specific pattern to translate (default: translate all)')
@@ -22,6 +22,8 @@ parser.add_argument('--verbose', action='store_true',
                     help='Enable verbose output')
 args = parser.parse_args()
 
+os.makedirs(args.output_dir, exist_ok=True)
+output_file = os.path.join(args.output_dir, args.input_file.split("/")[-1])
 # --- BLIP model setup ---
 print(f"Loading {args.model_path}...")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

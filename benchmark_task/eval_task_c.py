@@ -1,3 +1,4 @@
+
 import json
 import os
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
@@ -7,10 +8,8 @@ from bert_score import score as bert_score
 from sacrebleu.metrics import CHRF
 from tqdm import tqdm
 import os.path as osp
-current_dir = osp.dirname(osp.abspath(__file__))
-json_dir = osp.join(current_dir, "generated_instructions_gpt4v")
-output_dir = osp.join(current_dir, "crochet_eval_results_gpt4v")
-os.makedirs(output_dir, exist_ok=True)
+import argparse
+
 # ---------- Metrics ----------
 def compute_metrics(data):
     results = []
@@ -69,60 +68,69 @@ def compute_metrics(data):
         })
 
     return results
-# ---------- Load JSON ----------
-# Assume structure: [{"reference": "...", "generated": "..."}, ...]
-#json_dir = "generated_instructions_deepseek"
-#output_dir = "crochet_eval_results_deepseek"
-json_files = [f for f in os.listdir(json_dir) if f.endswith(".json")]
-for json_file in tqdm(json_files, desc="Processing JSON files"):
-    with open(os.path.join(json_dir, json_file), "r") as f:
-        data = json.load(f)
-    
-    # Debug info
-    print(f"Processing file: {json_file}")
-    print(f"Data type: {type(data)}")
-    if isinstance(data, list) and len(data) > 0:
-        print(f"First item type: {type(data[0])}")
-        # If the first item is a string, try to parse it as JSON
-        if isinstance(data[0], str):
-            try:
-                # Try to parse each string item as JSON
-                data = [json.loads(item) if isinstance(item, str) else item for item in data]
-                print("Converted string items to dictionaries")
-            except json.JSONDecodeError:
-                print("Failed to parse string items as JSON")
-    
-    # ---------- Run ----------
-    all_results = compute_metrics(data)
 
-    # ---------- BERTScore (batched for efficiency) ----------
-    refs = []
-    gens = []
-    for d in data:
-        if "instructions" in d and "generated_instructions" in d:
-            ref = d["instructions"]
-            gen = d["generated_instructions"]
-            
-            # Convert lists to strings
-            if isinstance(ref, list):
-                ref = " ".join(ref)
-            if isinstance(gen, list):
-                gen = " ".join(gen)
+
+    json_dir = "./task_c_gpt4o/" 
+
+def main():
+    parser = argparse.ArgumentParser(description='Evaluate crochet instructions translation quality')
+    parser.add_argument('model_name', type=str, default="gpt4o", choices=["gpt4o", "dsvl", "claude", "blip", "qwen", "gemini", "gemma"],
+                        help='Model name to evaluate (default: gpt4o)')
+    args = parser.parse_args()
+    json_dir = "./task_c_" + args.model_name + "/"
+    output_dir = "./eval_results_task_c_" + args.model_name + "/"
+    os.makedirs(output_dir, exist_ok=True)
+
+    json_files = [f for f in os.listdir(json_dir) if f.endswith(".json")]
+    for json_file in tqdm(json_files, desc="Processing JSON files"):
+        with open(os.path.join(json_dir, json_file), "r") as f:
+            data = json.load(f)
+        
+        # Debug info
+        print(f"Processing file: {json_file}")
+        print(f"Data type: {type(data)}")
+        if isinstance(data, list) and len(data) > 0:
+            print(f"First item type: {type(data[0])}")
+            # If the first item is a string, try to parse it as JSON
+            if isinstance(data[0], str):
+                try:
+                    # Try to parse each string item as JSON
+                    data = [json.loads(item) if isinstance(item, str) else item for item in data]
+                    print("Converted string items to dictionaries")
+                except json.JSONDecodeError:
+                    print("Failed to parse string items as JSON")
+        
+        # ---------- Run ----------
+        all_results = compute_metrics(data)
+
+        # ---------- BERTScore (batched for efficiency) ----------
+        refs = []
+        gens = []
+        for d in data:
+            if "instructions" in d and "generated_instructions" in d:
+                ref = d["instructions"]
+                gen = d["generated_instructions"]
                 
-            refs.append(ref)
-            gens.append(gen)
+                # Convert lists to strings
+                if isinstance(ref, list):
+                    ref = " ".join(ref)
+                if isinstance(gen, list):
+                    gen = " ".join(gen)
+                    
+                refs.append(ref)
+                gens.append(gen)
 
-    if refs and gens:  # Only proceed if lists are not empty
-        P, R, F1 = bert_score(gens, refs, lang="en", verbose=True)
+        if refs and gens:  # Only proceed if lists are not empty
+            P, R, F1 = bert_score(gens, refs, lang="en", verbose=True)
 
-        for i, r in enumerate(all_results):
-            r["BERTScore_P"] = float(P[i])
-            r["BERTScore_R"] = float(R[i])
-            r["BERTScore_F1"] = float(F1[i])
-    else:
-        print("Warning: No valid items found for BERTScore calculation")
-    # ---------- Save results ----------
-    with open(os.path.join(output_dir, "crochet_eval_results_" + json_file), "w") as f:
-        json.dump(all_results, f, indent=2)
+            for i, r in enumerate(all_results):
+                r["BERTScore_P"] = float(P[i])
+                r["BERTScore_R"] = float(R[i])
+                r["BERTScore_F1"] = float(F1[i])
+        else:
+            print("Warning: No valid items found for BERTScore calculation")
+        # ---------- Save results ----------
+        with open(os.path.join(output_dir, "eval_results_task_c_" + json_file), "w") as f:
+            json.dump(all_results, f, indent=2)
 
-print("✅ Evaluation complete. Saved to " + output_dir)
+    print("✅ Evaluation complete. Saved to " + output_dir)

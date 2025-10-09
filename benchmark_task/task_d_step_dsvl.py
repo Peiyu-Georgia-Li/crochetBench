@@ -12,15 +12,18 @@ from deepseek_vl.models import VLChatProcessor, MultiModalityCausalLM
 parser = argparse.ArgumentParser(description='Translate natural language crochet instructions to CrochetPARADE DSL using DeepSeek-VL')
 parser.add_argument('--model_path', type=str, default="deepseek-ai/deepseek-vl-7b-chat",
                     help='DeepSeek model to use (default: deepseek-ai/deepseek-vl-7b-chat)')
-parser.add_argument('--input_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_patterns_part1.json",
+parser.add_argument('--input_file', type=str, default="../data/step_level_test_1_2.json",
                     help='Path to the input JSON file containing crochet patterns')
-parser.add_argument('--output_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_dsl_translations_deepseek_vl_part1.json",
+parser.add_argument('--output_dir', type=str, default="./task_d_step_dsvl/",
                     help='Path to save the translated DSL outputs')
 parser.add_argument('--pattern_index', type=int, default=None,
                     help='Index of a specific pattern to translate (default: translate all)')
 parser.add_argument('--verbose', action='store_true',
                     help='Enable verbose output')
 args = parser.parse_args()
+
+os.makedirs(args.output_dir, exist_ok=True)
+output_file = os.path.join(args.output_dir, args.input_file.split("/")[-1])
 
 # --- DeepSeek VL model setup ---
 print(f"Loading {args.model_path}...")

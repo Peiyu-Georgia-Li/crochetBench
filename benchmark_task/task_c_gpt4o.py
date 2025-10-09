@@ -35,8 +35,8 @@ headers = {
 }
 
 # --- Directories ---
-json_dir = "/store01/nchawla/pli9/crochet/text_json"  # input JSONs
-output_dir = "./generated_instructions_gpt4v/"  # output directory
+json_dir = "../data/crochet_pattern_by_project/"  # input JSONs
+output_dir = "./task_c_gpt4o/"  # output directory
 os.makedirs(output_dir, exist_ok=True)
 
 # Progress tracking file

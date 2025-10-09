@@ -9,7 +9,7 @@ def load_unique_stitches():
     """
     stitch_set = set()
     try:
-        with open("/store01/nchawla/pli9/crochet/data_analysis/unique_stitches.txt", "r") as f:
+        with open("../data_analysis/unique_stitches.txt", "r") as f:
             for line in f:
                 # Extract just the stitch name without the count in parentheses
                 if "(" in line:
@@ -72,10 +72,10 @@ def extract_generated_stitches(generated_str):
 args = sys.argv
 model_name = args[1]
 
-# --- Find all JSON files in generated_abbreviation_qwen/ ---
-json_files = glob.glob(f"generated_abbreviation_{model_name}/*.json")
+# --- Find all JSON files in task_a_qwen/ ---
+json_files = glob.glob(f"task_a_{model_name}/*.json")
 # Skip files that are not pattern data files
-json_files = [f for f in json_files if not os.path.basename(f) in ["abbreviation_progress.json", "missing_abbreviations.json"]]
+json_files = [f for f in json_fi1les if not os.path.basename(f) in ["abbreviation_progress.json", "missing_abbreviations.json"]]
 print(f"Found {len(json_files)} JSON files to process")
 
 # --- Process each file ---
@@ -98,7 +98,7 @@ for json_file in sorted(json_files):
         stitch_abbrev_set, non_stitch_abbrev_set = extract_abbrev(item.get("abbreviations", []))
         
         # Handle different field names for different models
-        if model_name == "gpt4v":
+        if model_name == "gpt4o":
             generated_field = "generated_instructions"
         else:
             generated_field = "generated_stitches"

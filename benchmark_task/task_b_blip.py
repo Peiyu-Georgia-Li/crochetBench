@@ -16,9 +16,9 @@ from transformers import Blip2Processor, Blip2ForConditionalGeneration
 
 # Configure argument parser
 parser = argparse.ArgumentParser(description='Test BLIP2-FLAN-T5-XL model on multiple-choice dataset')
-parser.add_argument('--input_file', type=str, default='../mc_dataset.json',
+parser.add_argument('--input_file', type=str, default='../data/mc_dataset.json',
                     help='Input multiple-choice dataset file')
-parser.add_argument('--output_file', type=str, default='blip2_mc_direct_results.json',
+parser.add_argument('--output_file', type=str, default='task_b_blip.json',
                     help='Output results file')
 parser.add_argument('--max_samples', type=int, default=None,
                     help='Maximum number of samples to evaluate (None for all)')
@@ -47,7 +47,7 @@ def process_sample(sample, processor, model, device):
         image = Image.open(BytesIO(response.content)).convert("RGB")
         
         # Format options for the prompt
-        options_text = "\n".join([f"({opt['label']}) {opt['instructions'][:300]}..." for opt in sample['options']])
+        options_text = "\n".join([f"({opt['label']}) {opt['instructions']}" for opt in sample['options']])
         
         # Create the prompt
         prompt = f"""You are a crochet expert.

@@ -29,8 +29,8 @@ gemma_pipe = pipeline(
 )
 
 # --- Directories ---
-json_dir = "/store01/nchawla/pli9/crochet/text_json"  # input JSONs
-output_dir = "./generated_abbreviation_gemma/"  # output JSONs
+json_dir = "../data/crochet_pattern_by_project/"  # input JSONs
+output_dir = "./task_a_gemma/"  # output JSONs
 os.makedirs(output_dir, exist_ok=True)
 
 # --- List all JSON files ---

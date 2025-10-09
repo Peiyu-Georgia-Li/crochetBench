@@ -23,8 +23,8 @@ vl_gpt: MultiModalityCausalLM = MultiModalityCausalLM.from_pretrained(model_path
 vl_gpt = vl_gpt.to(torch.bfloat16).cuda().eval()
 
 # --- Directories ---
-json_dir = "/store01/nchawla/pli9/crochet/text_json"  # input JSONs
-output_dir = "./generated_abbreviation_deepseek/"  # updated output path
+json_dir = "../data/crochet_pattern_by_project/"  # input JSONs
+output_dir = "./task_a_dsvl/"  # updated output path
 os.makedirs(output_dir, exist_ok=True)
 
 # --- List all JSON files ---

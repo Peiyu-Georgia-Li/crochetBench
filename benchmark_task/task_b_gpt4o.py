@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test GPT-4o-mini model on multiple-choice dataset (mc_dataset.json).
+Test GPT-4o model on multiple-choice dataset (mc_dataset.json).
 Uses direct option selection (A/B/C/D) for evaluation.
 Implements rate limiting and exponential backoff for API calls.
 """
@@ -17,10 +17,10 @@ from io import BytesIO
 from tqdm import tqdm
 
 # Configure argument parser
-parser = argparse.ArgumentParser(description='Test GPT-4o-mini model on multiple-choice dataset')
-parser.add_argument('--input_file', type=str, default='../mc_dataset.json',
+parser = argparse.ArgumentParser(description='Test GPT-4o model on multiple-choice dataset')
+parser.add_argument('--input_file', type=str, default='../data/mc_dataset.json',
                     help='Input multiple-choice dataset file')
-parser.add_argument('--output_file', type=str, default='gpt4omini_mc_results.json',
+parser.add_argument('--output_file', type=str, default='task_b_gpt4o.json',
                     help='Output results file')
 parser.add_argument('--max_samples', type=int, default=None,
                     help='Maximum number of samples to evaluate (None for all)')
@@ -132,7 +132,7 @@ def call_api_with_backoff(payload, max_retries=5, base_delay=2):
     raise Exception(f"Failed after {max_retries} retries due to rate limiting or connection issues")
 
 def process_sample(sample):
-    """Process a single sample from the dataset using GPT-4o-mini."""
+    """Process a single sample from the dataset using GPT-4o."""
     try:
         # Format options for the prompt
         options_text = "\n".join([f"({opt['label']}) {opt['instructions']}" for opt in sample['options']])
@@ -183,7 +183,7 @@ Choose exactly ONE option. Your answer must be only one letter: A, B, C, or D.""
         
         # Prepare API payload
         payload = {
-            "model": "gpt-4o-mini",
+            "model": "gpt-4o",
             "messages": messages,
             "max_tokens": 20,
             "temperature": 0.0  # Deterministic output

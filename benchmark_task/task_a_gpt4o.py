@@ -31,8 +31,8 @@ headers = {
 SELECTED_MODEL = "gpt-4o-mini"  # Default model
 
 # --- Directories ---
-json_dir = "/store01/nchawla/pli9/crochet/text_json"  # input JSONs
-output_dir = "./generated_abbreviation_gpt4v/"  # output directory
+json_dir = "../data/crochet_pattern_by_project/"  # input JSONs
+output_dir = "./task_a_gpt4o/"  # output directory
 os.makedirs(output_dir, exist_ok=True)
 
 # Progress tracking file

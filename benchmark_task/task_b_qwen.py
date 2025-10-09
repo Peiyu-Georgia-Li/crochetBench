@@ -17,9 +17,9 @@ import traceback
 
 # Configure argument parser
 parser = argparse.ArgumentParser(description='Test Qwen2-VL model on multiple-choice dataset')
-parser.add_argument('--input_file', type=str, default='../mc_dataset.json',
+parser.add_argument('--input_file', type=str, default='../data/mc_dataset.json',
                     help='Input multiple-choice dataset file')
-parser.add_argument('--output_file', type=str, default='qwen_mc_results.json',
+parser.add_argument('--output_file', type=str, default='task_b_qwen.json',
                     help='Output results file')
 parser.add_argument('--max_samples', type=int, default=None,
                     help='Maximum number of samples to evaluate (None for all)')
@@ -88,7 +88,7 @@ def process_sample(sample, model, processor):
         image = load_image_from_source(sample['image_url'])
         
         # Format options for the prompt
-        options_text = "\n".join([f"({opt['label']}) {opt['instructions'][:300]}..." for opt in sample['options']])
+        options_text = "\n".join([f"({opt['label']}) {opt['instructions']}" for opt in sample['options']])
         
         # Create the prompt
         system_prompt = """You are a crochet expert. Your task is to determine which option (A, B, C, or D) contains the correct instructions for creating the crochet item shown in the image."""

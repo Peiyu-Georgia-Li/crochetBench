@@ -1,0 +1,32 @@
+# Core ML/AI Libraries
+torch>=2.0.0
+transformers>=4.35.0
+pillow>=10.0.0
+
+# API Clients
+anthropic>=0.18.0
+google-genai>=0.4.0
+openai>=1.0.0
+
+# Web Scraping
+selenium>=4.15.0
+requests>=2.31.0
+
+# Utilities
+tqdm>=4.66.0
+python-dotenv>=1.0.0
+
+# Data Processing
+numpy>=1.24.0
+
+# Evaluation Metrics (Required for Task C and evaluation scripts)
+nltk>=3.8.0
+rouge-score>=0.1.2
+bert-score>=0.3.13
+sacrebleu>=2.3.0
+
+# Model-specific dependencies (uncomment as needed)
+# deepseek-vl  # For DeepSeek-VL model tasks
+# qwen-vl-utils  # For Qwen2-VL model tasks
+# accelerate>=0.25.0  # For faster model loading
+# bitsandbytes>=0.41.0  # For quantization

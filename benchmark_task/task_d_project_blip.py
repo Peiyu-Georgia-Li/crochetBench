@@ -56,7 +56,7 @@ processor = Blip2Processor.from_pretrained("Salesforce/blip2-flan-t5-xl")
 model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xl").to("cuda")
 
 # --- Directories ---
-output_dir = "./generated_dsl_blip/"
+output_dir = "./task_d_project_blip/"
 os.makedirs(output_dir, exist_ok=True)
 
 # --- Helper functions ---
@@ -87,8 +87,8 @@ def create_few_shot_prompt(examples, target_instructions):
     return prompt
 
 # --- Process JSON files ---
-json_file = 'selected_crochet_patterns_3.json'
-json_dir = '/store01/nchawla/pli9/crochet/'
+json_file = 'project_level_test.json'
+json_dir = '../data/'
 json_path = os.path.join(json_dir, json_file)
 
 with open(json_path, "r") as f:

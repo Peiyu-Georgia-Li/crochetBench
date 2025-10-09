@@ -16,9 +16,9 @@ from io import BytesIO
 
 # Configure argument parser
 parser = argparse.ArgumentParser(description='Test DeepSeek VL model on multiple-choice dataset')
-parser.add_argument('--input_file', type=str, default='../mc_dataset.json',
+parser.add_argument('--input_file', type=str, default='../data/mc_dataset.json',
                     help='Input multiple-choice dataset file')
-parser.add_argument('--output_file', type=str, default='dsvl_mc_results.json',
+parser.add_argument('--output_file', type=str, default='task_b_dsvl.json',
                     help='Output results file')
 parser.add_argument('--max_samples', type=int, default=None,
                     help='Maximum number of samples to evaluate (None for all)')
@@ -49,7 +49,7 @@ def process_sample(sample, vl_chat_processor, vl_model, tokenizer):
         image = Image.open(BytesIO(response.content)).convert("RGB")
         
         # Format options for the prompt
-        options_text = "\n".join([f"({opt['label']}) {opt['instructions'][:300]}..." for opt in sample['options']])
+        options_text = "\n".join([f"({opt['label']}) {opt['instructions']}" for opt in sample['options']])
         
         # Create the prompt
         system_prompt = """You are a crochet expert. Your task is to determine which of the given options (A, B, C, or D) contains the correct crochet instructions for the image shown."""

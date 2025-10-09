@@ -10,9 +10,9 @@ from tqdm import tqdm
 parser = argparse.ArgumentParser(description='Translate natural language crochet instructions to CrochetPARADE DSL using GPT-4V')
 parser.add_argument('--model_path', type=str, default="gpt-4o",
                     help='GPT-4V model to use (default: gpt-4o)')
-parser.add_argument('--input_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_patterns_part3.json",
+parser.add_argument('--input_file', type=str, default="../data/step_level_test_1_2.json",
                     help='Path to the input JSON file containing crochet patterns')
-parser.add_argument('--output_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_dsl_translations_gpt4v_part3.json",
+parser.add_argument('--output_dir', type=str, default="./task_d_step_gpt4o/",
                     help='Path to save the translated DSL outputs')
 parser.add_argument('--pattern_index', type=int, default=None,
                     help='Index of a specific pattern to translate (default: translate all)')
@@ -25,6 +25,9 @@ parser.add_argument('--max_retries', type=int, default=5,
 parser.add_argument('--initial_backoff', type=float, default=1.0,
                     help='Initial backoff time in seconds for retry mechanism (default: 1.0)')
 args = parser.parse_args()
+
+os.makedirs(args.output_dir, exist_ok=True)
+output_file = os.path.join(args.output_dir, args.input_file.split("/")[-1])
 
 # --- API setup ---
 # Get API key from environment variable for security

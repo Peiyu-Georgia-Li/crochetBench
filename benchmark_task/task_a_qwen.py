@@ -116,8 +116,8 @@ Output only a comma-separated list of abbreviations—no explanations or extra c
 def main():
     """Main function to process all JSON files with the Qwen2-VL model"""
     # --- Directories ---
-    json_dir = "/store01/nchawla/pli9/crochet/text_json"  # input JSONs
-    output_dir = "./generated_abbreviation_qwen/"  # output JSONs
+    json_dir = "../data/crochet_pattern_by_project/"  # input JSONs
+    output_dir = "./task_a_qwen/"  # output JSONs
     os.makedirs(output_dir, exist_ok=True)
     
     # --- List all JSON files ---

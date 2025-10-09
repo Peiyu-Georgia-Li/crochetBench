@@ -10,9 +10,9 @@ import random
 parser = argparse.ArgumentParser(description='Translate natural language crochet instructions to CrochetPARADE DSL using Claude')
 parser.add_argument('--model', type=str, default="claude-sonnet-4-20250514", 
                     help='Claude model to use (default: claude-sonnet-4-20250514)')
-parser.add_argument('--input_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_patterns_part4.json",
+parser.add_argument('--input_file', type=str, default="../data/step_level_test_1_2.json",
                     help='Path to the input JSON file containing crochet patterns')
-parser.add_argument('--output_file', type=str, default="/store01/nchawla/pli9/crochet/crochet_dsl_translations_claude_part4.json",
+parser.add_argument('--output_dir', type=str, default="./task_d_step_claude/",
                     help='Path to save the translated DSL outputs')
 parser.add_argument('--pattern_index', type=int, default=None,
                     help='Index of a specific pattern to translate (default: translate all)')
@@ -25,6 +25,9 @@ parser.add_argument('--max_retries', type=int, default=5,
 parser.add_argument('--initial_backoff', type=float, default=1.0,
                     help='Initial backoff time in seconds for retry mechanism (default: 1.0)')
 args = parser.parse_args()
+
+os.makedirs(args.output_dir, exist_ok=True)
+output_file = os.path.join(args.output_dir, args.input_file.split("/")[-1])
 
 # --- Claude API setup ---
 model = args.model

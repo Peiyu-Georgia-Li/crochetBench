@@ -21,8 +21,8 @@ processor = Blip2Processor.from_pretrained("Salesforce/blip2-flan-t5-xl")
 model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xl").to("cuda")
 
 # Directories
-json_dir = "/store01/nchawla/pli9/crochet/text_json/"
-output_dir = "./generated_instructions_blip/"
+json_dir = "../data/crochet_pattern_by_project/"
+output_dir = "./task_c_blip/"
 os.makedirs(output_dir, exist_ok=True)
 
 # List all JSON files

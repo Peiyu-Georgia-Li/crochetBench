@@ -55,8 +55,7 @@ FEW_SHOT_EXAMPLES = [
 ]
 
 # --- Directories ---
-json_dir = "/store01/nchawla/pli9/crochet/text_json"
-output_dir = "./generated_dsl_gemini/"
+output_dir = "./task_d_project_gemini/"
 os.makedirs(output_dir, exist_ok=True)
 
 # --- Initialize Gemini client ---
@@ -73,8 +72,8 @@ def load_image_from_url(url):
         return None
 
 # --- Process JSON files ---
-json_file = 'selected_crochet_patterns_3.json'
-json_dir = '/store01/nchawla/pli9/crochet/'
+json_file = 'project_level_test.json'
+json_dir = '../data/'
 json_path = os.path.join(json_dir, json_file)
 with open(json_path, "r") as f:
     data = json.load(f)

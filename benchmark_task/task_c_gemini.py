@@ -30,8 +30,8 @@ Requirements:
 """
 
 # --- Directories ---
-json_dir = "/store01/nchawla/pli9/crochet/text_json"  # Input JSON directory
-output_dir = "./generated_instructions_gemini/"
+json_dir = "../data/crochet_pattern_by_project/"  # Input JSON directory
+output_dir = "./task_c_gemini/"
 os.makedirs(output_dir, exist_ok=True)
 
 # --- Load Image from URL ---

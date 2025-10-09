@@ -65,7 +65,7 @@ headers = {
 }
 
 # --- Directories ---
-output_dir = "./generated_dsl_gpt4v/"
+output_dir = "./task_d_project_gpt4o/"
 os.makedirs(output_dir, exist_ok=True)
 
 # --- Helpers ---
@@ -94,8 +94,8 @@ def encode_image_to_base64(image_path_or_url):
     return base64.b64encode(image_content).decode('utf-8')
 
 # --- Process JSON files ---
-json_file = 'selected_crochet_patterns_3.json'
-json_dir = '/store01/nchawla/pli9/crochet/'
+json_file = 'project_level_test.json'
+json_dir = '../data/'
 json_path = os.path.join(json_dir, json_file)
 with open(json_path, "r") as f:
     data = json.load(f)
@@ -184,7 +184,7 @@ for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} entries", leave=Fal
         print(f"{json_file} [{idx}] DSL preview:\n{dsl_output}...\n")
 
     except Exception as e:
-        print(f"❌ GPT-4V failed on {idx}: {e}")
+        print(f"❌ GPT-4o failed on {idx}: {e}")
         continue
 
 # --- Save updated JSON ---
