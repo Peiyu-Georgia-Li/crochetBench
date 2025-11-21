@@ -13,7 +13,7 @@ from collections import defaultdict
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Progressively verify generated DSL patterns")
-parser.add_argument("model_name", "-m", type=str, default="claude", 
+parser.add_argument("model_name",  type=str, nargs='?', default="claude", 
                     help="Model name (default: claude)")
 args = parser.parse_args()
 
@@ -245,7 +245,7 @@ def progressive_verify_dsl():
         pattern_result["is_valid_full"] = full_result.get('valid', False)
         pattern_result["full_validation"] = full_result
         
-        if pattern_result["is_valid_full"]:verify_crochet_pattern
+        if pattern_result["is_valid_full"]:#verify_crochet_pattern
             print(f"Full pattern is VALID")
             total_stats["valid"] += 1
         else:
