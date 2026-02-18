@@ -1,6 +1,10 @@
 # CrochetBench 🧶
 
 > Can vision-language models move from describing to doing in the crochet domain?
+
+## Copyright Permission
+![copyright_permission_email](https://github.com/user-attachments/assets/f684bc93-c652-42a8-8e28-c952e2e406e4)
+
 ## 📋 Table of Contents
 
 - [About](#about)
@@ -190,9 +194,9 @@ unzip mc_data.json.zip
    cd collect_data
    ```
 
-2. **Run the CLI tool** to scrape data:
+2. **Run the CLI tool** to collect data:
    ```bash
-   # Scrape specific project type
+   # Collect specific project type
    python cli.py --project-type "Hats" --pages 3
    ```
 
@@ -367,7 +371,7 @@ crochetBench/
 │
 ├── collect_data/                # Data collection utilities
 │   ├── cli.py                  # CLI tool for scraping patterns
-│   ├── data_scraping.py        # Web scraping functions
+│   ├── data_collecting.py        # Data Collecting functions
 │   ├── data_preprocessing.py   # Data preprocessing functions
 │   ├── add_image.py            # Image download utility
 │   └── create_mc_dataset.py    # Multiple choice dataset builder
