@@ -8,6 +8,7 @@ import base64
 
 import anthropic
 import argparse
+from utils import image_to_base64, load_image_from_url, normalize_to_list
 
 # --- Claude API Setup ---
 # Parse command line arguments
@@ -40,23 +41,6 @@ os.makedirs(output_dir, exist_ok=True)
 # --- Initialize Claude client ---
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
-# --- Load Image from URL ---
-def load_image_from_url(url):
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return Image.open(BytesIO(response.content)).convert("RGB")
-    except Exception as e:
-        print(f"❌ Failed to fetch image from {url}: {e}")
-        return None
-
-# --- Convert image to base64 ---
-def image_to_base64(image):
-    buffered = BytesIO()
-    image.save(buffered, format="JPEG")
-    img_str = base64.b64encode(buffered.getvalue()).decode()
-    return img_str
-
 # --- Process all JSON files ---
 json_files = [f for f in os.listdir(json_dir) if f.endswith(".json")]
 for json_file in tqdm(json_files, desc="Processing with Claude"):
@@ -64,20 +48,7 @@ for json_file in tqdm(json_files, desc="Processing with Claude"):
     with open(json_path, "r") as f:
         data = json.load(f)
     
-    if isinstance(data, dict):
-        # If the dictionary has a list of entries, use that
-        if any(isinstance(v, list) for v in data.values()):
-            for key, value in data.items():
-                if isinstance(value, list):
-                    entries = value
-                    break
-        else:
-            # Otherwise treat the dictionary as a single entry
-            entries = [data]
-    else:
-        # It's already a list
-        entries = data
-    
+    entries = normalize_to_list(data)
     for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} images", leave=False)):
         # Try URL first, fallback to local path
         if not isinstance(entry, dict):

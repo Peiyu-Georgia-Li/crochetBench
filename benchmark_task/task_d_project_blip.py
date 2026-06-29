@@ -7,6 +7,7 @@ import requests
 from io import BytesIO
 import traceback
 import torch
+from utils import load_image_from_url, normalize_to_list
 
 # --- Few-shot reference examples ---
 FEW_SHOT_EXAMPLES = [
@@ -59,16 +60,6 @@ model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-
 output_dir = "./task_d_project_blip/"
 os.makedirs(output_dir, exist_ok=True)
 
-# --- Helper functions ---
-def load_image_from_url(url):
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return Image.open(BytesIO(response.content)).convert("RGB")
-    except Exception as e:
-        print(f"❌ Failed to fetch image from {url}: {e}")
-        return None
-
 def create_few_shot_prompt(examples, target_instructions):
     """Create a few-shot prompt with examples and target instructions"""
     prompt = SYSTEM_PROMPT + "\n\n"
@@ -95,17 +86,7 @@ with open(json_path, "r") as f:
     data = json.load(f)
 
 # Normalize to list of entries
-if isinstance(data, dict):
-    if any(isinstance(v, list) for v in data.values()):
-        for key, value in data.items():
-            if isinstance(value, list):
-                entries = value
-                break
-    else:
-        entries = [data]
-else:
-    entries = data
-
+entries = normalize_to_list(data)
 for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} images", leave=False)):
     image_source = entry.get("image_link") or entry.get("image_path")
     if not image_source:

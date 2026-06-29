@@ -7,6 +7,7 @@ from io import BytesIO
 import argparse
 
 from google import genai
+from utils import load_image_from_url, normalize_to_list
 
 # --- Gemini API Setup ---
 parser = argparse.ArgumentParser(description='Generate crochet DSL using Gemini API with few-shot learning')
@@ -61,16 +62,6 @@ os.makedirs(output_dir, exist_ok=True)
 # --- Initialize Gemini client ---
 client = genai.Client()
 
-# --- Load Image from URL ---
-def load_image_from_url(url):
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return Image.open(BytesIO(response.content)).convert("RGB")
-    except Exception as e:
-        print(f"❌ Failed to fetch image from {url}: {e}")
-        return None
-
 # --- Process JSON files ---
 json_file = 'project_level_test.json'
 json_dir = '../data/'
@@ -79,17 +70,7 @@ with open(json_path, "r") as f:
     data = json.load(f)
 
 # Normalize to list of entries
-if isinstance(data, dict):
-    if any(isinstance(v, list) for v in data.values()):
-        for key, value in data.items():
-            if isinstance(value, list):
-                entries = value
-                break
-    else:
-        entries = [data]
-else:
-    entries = data
-
+entries = normalize_to_list(data)
 for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} entries", leave=False)):
     image_source = entry.get("image_link") or entry.get("image_path")
     if not image_source:

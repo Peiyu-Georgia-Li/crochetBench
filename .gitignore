@@ -5,3 +5,42 @@ data/mc_data.json
 # Environment variables (API keys)
 .env
 .env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Task inference output directories
+task_a_*/
+task_b_*/
+task_c_*/
+task_d_*/
+
+# Evaluation result files
+stitch_coverage_results_*.json
+stitch_coverage_summary_*.txt
+per_*.csv
+*_dsl_progressive_verification.json
+*_dsl_error_analysis.json
+*_dsl_patterns/
+*_dsl_progressive_results/
+
+# Fine-tuning outputs
+finetune/qwen_checkpoints*/
+finetune/generation_samples/
+finetune/evaluation_detailed_logs/
+finetune/evaluation_results/
+finetune/generation_logs/
+finetune/raw_model_outputs/
+finetune/qwen_training_*.log
+
+# Jupyter
+.ipynb_checkpoints/

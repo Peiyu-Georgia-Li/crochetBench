@@ -8,6 +8,7 @@ from tqdm import tqdm
 import requests
 from PIL import Image
 from io import BytesIO
+from utils import encode_image_to_base64, normalize_to_list
 
 SYSTEM_PROMPT = """
 You are a professional crochet pattern writer. 
@@ -44,22 +45,6 @@ progress_file = os.path.join(output_dir, "progress.json")
 
 # File for tracking missing patterns
 missing_patterns_file = os.path.join(output_dir, "missing_patterns.json")
-
-def encode_image_to_base64(image_path_or_url):
-    """Convert image to base64 encoding for API submission"""
-    if image_path_or_url.startswith("http"):
-        response = requests.get(image_path_or_url)
-        if response.status_code != 200:
-            raise ValueError(f"Failed to fetch image from {image_path_or_url}")
-        image_content = response.content
-    else:
-        if not os.path.exists(image_path_or_url):
-            raise FileNotFoundError(f"Image file not found: {image_path_or_url}")
-        with open(image_path_or_url, "rb") as image_file:
-            image_content = image_file.read()
-    
-    # Convert to base64
-    return base64.b64encode(image_content).decode('utf-8')
 
 def load_progress():
     """Load progress from file to resume where we left off"""
@@ -153,20 +138,7 @@ def find_missing_instructions(specific_file=None):
                     original_data = json.load(f)
             
             # Convert to list if data is a dictionary
-            if isinstance(data, dict):
-                # If the dictionary has a list of entries, use that
-                if any(isinstance(v, list) for v in data.values()):
-                    for key, value in data.items():
-                        if isinstance(value, list):
-                            entries = value
-                            break
-                else:
-                    # Otherwise treat the dictionary as a single entry
-                    entries = [data]
-            else:
-                # It's already a list
-                entries = data
-            
+            entries = normalize_to_list(data)
             # Collect entries without generated instructions
             file_missing = []
             for idx, entry in enumerate(entries):
@@ -241,20 +213,7 @@ def process_missing_patterns(specific_file=None):
                 data = json.load(f)
         
         # Convert to list if data is a dictionary
-        if isinstance(data, dict):
-            # If the dictionary has a list of entries, use that
-            if any(isinstance(v, list) for v in data.values()):
-                for key, value in data.items():
-                    if isinstance(value, list):
-                        entries = value
-                        break
-            else:
-                # Otherwise treat the dictionary as a single entry
-                entries = [data]
-        else:
-            # It's already a list
-            entries = data
-        
+        entries = normalize_to_list(data)
         # Process only the missing entries
         for missing_entry in tqdm(missing_entries, desc=f"{json_file} missing patterns", leave=False):
             idx = missing_entry["index"]

@@ -15,6 +15,7 @@ from io import BytesIO
 from tqdm import tqdm
 import traceback
 from google import genai
+from utils import load_image_from_source
 
 # Configure argument parser
 parser = argparse.ArgumentParser(description='Test Gemini model on multiple-choice dataset')
@@ -45,41 +46,6 @@ def load_dataset(file_path, max_samples=None):
     
     print(f"Loaded {len(dataset)} samples")
     return dataset
-
-def load_image_from_source(image_source):
-    """Load an image from URL or local path with enhanced error handling"""
-    if not image_source:
-        raise ValueError("Empty image source provided")
-        
-    if isinstance(image_source, str) and image_source.strip():
-        image_source = image_source.strip()
-        if image_source.startswith("http"):
-            try:
-                response = requests.get(image_source, timeout=10)
-                if response.status_code != 200:
-                    raise Exception(f"Failed to fetch image: {response.status_code}")
-                image = Image.open(BytesIO(response.content)).convert("RGB")
-                # Validate image has valid dimensions
-                if image.width <= 0 or image.height <= 0:
-                    raise ValueError("Invalid image dimensions")
-                return image
-            except requests.RequestException as e:
-                raise Exception(f"Request error: {str(e)}")
-            except Exception as e:
-                raise Exception(f"Error processing image from URL: {str(e)}")
-        else:
-            if not os.path.exists(image_source):
-                raise FileNotFoundError(f"Image file not found: {image_source}")
-            try:
-                image = Image.open(image_source).convert("RGB")
-                # Validate image has valid dimensions
-                if image.width <= 0 or image.height <= 0:
-                    raise ValueError("Invalid image dimensions")
-                return image
-            except Exception as e:
-                raise Exception(f"Error loading local image: {str(e)}")
-    else:
-        raise ValueError(f"Invalid image source: {type(image_source)}")
 
 def extract_boxed_answer(raw_response):
     """Extract the answer from $\\boxed{X}$ format in the raw response."""

@@ -7,45 +7,11 @@ import requests
 from io import BytesIO
 from tqdm import tqdm
 import traceback
+from utils import load_image_from_source, normalize_to_list
 
 # Check if CUDA is available and set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
-
-def load_image_from_source(image_source):
-    """Load an image from URL or local path with enhanced error handling"""
-    if not image_source:
-        raise ValueError("Empty image source provided")
-        
-    if isinstance(image_source, str) and image_source.strip():
-        image_source = image_source.strip()
-        if image_source.startswith("http"):
-            try:
-                response = requests.get(image_source, timeout=10)
-                if response.status_code != 200:
-                    raise Exception(f"Failed to fetch image: {response.status_code}")
-                image = Image.open(BytesIO(response.content)).convert("RGB")
-                # Validate image has valid dimensions
-                if image.width <= 0 or image.height <= 0:
-                    raise ValueError("Invalid image dimensions")
-                return image
-            except requests.RequestException as e:
-                raise Exception(f"Request error: {str(e)}")
-            except Exception as e:
-                raise Exception(f"Error processing image from URL: {str(e)}")
-        else:
-            if not os.path.exists(image_source):
-                raise FileNotFoundError(f"Image file not found: {image_source}")
-            try:
-                image = Image.open(image_source).convert("RGB")
-                # Validate image has valid dimensions
-                if image.width <= 0 or image.height <= 0:
-                    raise ValueError("Invalid image dimensions")
-                return image
-            except Exception as e:
-                raise Exception(f"Error loading local image: {str(e)}")
-    else:
-        raise ValueError(f"Invalid image source: {type(image_source)}")
 
 def generate_crochet_instructions(image_source):
     """Generate crochet instructions for a given image using Qwen2-VL model"""
@@ -138,20 +104,7 @@ def main():
             data = json.load(f)
         
         # Convert to list if data is a dictionary
-        if isinstance(data, dict):
-            # If the dictionary has a list of entries, use that
-            if any(isinstance(v, list) for v in data.values()):
-                for key, value in data.items():
-                    if isinstance(value, list):
-                        entries = value
-                        break
-            else:
-                # Otherwise treat the dictionary as a single entry
-                entries = [data]
-        else:
-            # It's already a list
-            entries = data
-        
+        entries = normalize_to_list(data)
         # --- Iterate over entries/images ---
         for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} images", leave=False)):
             # Skip non-dictionary entries

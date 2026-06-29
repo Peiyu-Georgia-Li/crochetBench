@@ -7,6 +7,7 @@ from io import BytesIO
 
 from google import genai
 import argparse
+from utils import load_image_from_url, normalize_to_list
 # --- Gemini API Setup ---
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Generate crochet instructions using Gemini API')
@@ -34,36 +35,13 @@ json_dir = "../data/crochet_pattern_by_project/"  # Input JSON directory
 output_dir = "./task_c_gemini/"
 os.makedirs(output_dir, exist_ok=True)
 
-# --- Load Image from URL ---
-def load_image_from_url(url):
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return Image.open(BytesIO(response.content)).convert("RGB")
-    except Exception as e:
-        print(f"❌ Failed to fetch image from {url}: {e}")
-        return None
-
 # --- Process all JSON files ---
 json_files = [f for f in os.listdir(json_dir) if f.endswith(".json")]
 for json_file in tqdm(json_files, desc="Processing with Gemini"):
     json_path = os.path.join(json_dir, json_file)
     with open(json_path, "r") as f:
         data = json.load(f)
-    if isinstance(data, dict):
-        # If the dictionary has a list of entries, use that
-        if any(isinstance(v, list) for v in data.values()):
-            for key, value in data.items():
-                if isinstance(value, list):
-                    entries = value
-                    break
-        else:
-            # Otherwise treat the dictionary as a single entry
-            entries = [data]
-    else:
-        # It's already a list
-        entries = data
-    
+    entries = normalize_to_list(data)
     for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} images", leave=False)):
         # Try URL first, fallback to local path
         if not isinstance(entry, dict):

@@ -15,6 +15,7 @@ import random
 from PIL import Image
 from io import BytesIO
 from tqdm import tqdm
+from utils import encode_image_to_base64
 
 # Configure argument parser
 parser = argparse.ArgumentParser(description='Test GPT-4o model on multiple-choice dataset')
@@ -76,22 +77,6 @@ def load_dataset(file_path, max_samples=None, only_failed=True):
     
     print(f"Final dataset size: {len(dataset)} samples")
     return dataset
-
-def encode_image_to_base64(image_path_or_url):
-    """Convert image to base64 encoding for API submission"""
-    if image_path_or_url.startswith("http"):
-        response = requests.get(image_path_or_url, timeout=10)
-        if response.status_code != 200:
-            raise ValueError(f"Failed to fetch image from {image_path_or_url}")
-        image_content = response.content
-    else:
-        if not os.path.exists(image_path_or_url):
-            raise FileNotFoundError(f"Image file not found: {image_path_or_url}")
-        with open(image_path_or_url, "rb") as image_file:
-            image_content = image_file.read()
-    
-    # Convert to base64
-    return base64.b64encode(image_content).decode('utf-8')
 
 def call_api_with_backoff(payload, max_retries=5, base_delay=2):
     """

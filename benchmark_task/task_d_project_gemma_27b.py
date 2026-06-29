@@ -5,6 +5,7 @@ import torch
 from transformers import pipeline
 from pathlib import Path
 import traceback
+from utils import normalize_to_list
 
 # --- Few-shot reference examples ---
 FEW_SHOT_EXAMPLES = [
@@ -87,17 +88,7 @@ with open(json_path, "r") as f:
     data = json.load(f)
 
 # Normalize to list of entries
-if isinstance(data, dict):
-    if any(isinstance(v, list) for v in data.values()):
-        for key, value in data.items():
-            if isinstance(value, list):
-                entries = value
-                break
-    else:
-        entries = [data]
-else:
-    entries = data
-
+entries = normalize_to_list(data)
 for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} images", leave=False)):
     image_source = entry.get("image_link") or entry.get("image_path")
     if not image_source:

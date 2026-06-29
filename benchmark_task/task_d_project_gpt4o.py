@@ -6,6 +6,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 import argparse
+from utils import encode_image_to_base64, load_image_from_url, normalize_to_list
 
 # --- GPT-4V API Setup ---
 parser = argparse.ArgumentParser(description='Generate crochet DSL using GPT-4V API with few-shot learning')
@@ -68,31 +69,6 @@ headers = {
 output_dir = "./task_d_project_gpt4o/"
 os.makedirs(output_dir, exist_ok=True)
 
-# --- Helpers ---
-def load_image_from_url(url):
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return Image.open(BytesIO(response.content)).convert("RGB")
-    except Exception as e:
-        print(f"❌ Failed to fetch image from {url}: {e}")
-        return None
-
-def encode_image_to_base64(image_path_or_url):
-    """Convert image to base64 encoding for API submission"""
-    if image_path_or_url.startswith("http"):
-        response = requests.get(image_path_or_url)
-        if response.status_code != 200:
-            raise ValueError(f"Failed to fetch image from {image_path_or_url}")
-        image_content = response.content
-    else:
-        if not os.path.exists(image_path_or_url):
-            raise FileNotFoundError(f"Image file not found: {image_path_or_url}")
-        with open(image_path_or_url, "rb") as image_file:
-            image_content = image_file.read()
-    
-    return base64.b64encode(image_content).decode('utf-8')
-
 # --- Process JSON files ---
 json_file = 'project_level_test.json'
 json_dir = '../data/'
@@ -101,17 +77,7 @@ with open(json_path, "r") as f:
     data = json.load(f)
 
 # Normalize to list of entries
-if isinstance(data, dict):
-    if any(isinstance(v, list) for v in data.values()):
-        for key, value in data.items():
-            if isinstance(value, list):
-                entries = value
-                break
-    else:
-        entries = [data]
-else:
-    entries = data
-
+entries = normalize_to_list(data)
 for idx, entry in enumerate(tqdm(entries, desc=f"{json_file} entries", leave=False)):
     image_source = entry.get("image_link") or entry.get("image_path")
     if not image_source:

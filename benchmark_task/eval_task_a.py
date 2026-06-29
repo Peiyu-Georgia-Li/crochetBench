@@ -75,7 +75,7 @@ model_name = args[1]
 # --- Find all JSON files in task_a_qwen/ ---
 json_files = glob.glob(f"task_a_{model_name}/*.json")
 # Skip files that are not pattern data files
-json_files = [f for f in json_fi1les if not os.path.basename(f) in ["abbreviation_progress.json", "missing_abbreviations.json"]]
+json_files = [f for f in json_files if not os.path.basename(f) in ["abbreviation_progress.json", "missing_abbreviations.json"]]
 print(f"Found {len(json_files)} JSON files to process")
 
 # --- Process each file ---
