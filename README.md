@@ -4,8 +4,7 @@
 
 ### Can Vision-Language Models Move from Describing to Doing in the Crochet Domain?
 
-[![ACL 2026](https://img.shields.io/badge/ACL%202026-Long%20Paper-%23B31B1B?style=for-the-badge)](https://aclanthology.org/)
-[![Paper](https://img.shields.io/badge/Paper-📎-lightgrey?style=for-the-badge)](https://aclanthology.org/)
+[![ACL 2026](https://img.shields.io/badge/ACL%202026-Long%20Paper-%23B31B1B?style=for-the-badge)](https://aclanthology.org/2026.acl-long.604/)
 [![Dataset](https://img.shields.io/badge/🤗%20Dataset-CrochetBench-green?style=for-the-badge)](https://huggingface.co/datasets/peiyugeorgia/CrochetBench)
 [![Model](https://img.shields.io/badge/🤗%20Model-Qwen2VL--TaskC-purple?style=for-the-badge)](https://huggingface.co/peiyugeorgia/qwen2vl-crochetbench-task-c-finetuned)
 [![License: MIT](https://img.shields.io/badge/Code-MIT-blue?style=for-the-badge)](LICENSE)
@@ -729,13 +728,20 @@ crochetBench/
 If you use CrochetBench in your research, please cite / 如果您在研究中使用了 CrochetBench，请引用：
 
 ```bibtex
-@inproceedings{peiyuli2026,
-  title     = {CrochetBench: Can Vision-Language Models Move from Describing to
-               Doing in Crochet Domain?},
-  author    = {Li, Peiyu and Huang, Xiaobao and Hua, Ting and Chawla, Nitesh V.},
-  booktitle = {Proceedings of the 64th Annual Meeting of the Association for
-               Computational Linguistics (Volume 1: Long Papers)},
-  year      = {2026},
-  note      = {To appear}
+@inproceedings{li-etal-2026-crochetbench,
+    title = "{C}rochet{B}ench: Can Vision-Language Models Move from Describing to Doing in Crochet Domain?",
+    author = "Li, Peiyu  and
+      Huang, Xiaobao  and
+      Hua, Ting  and
+      Chawla, Nitesh V",
+    booktitle = "Proceedings of the 64th Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2026",
+    address = "San Diego, California, United States",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.acl-long.604/",
+    doi = "10.18653/v1/2026.acl-long.604",
+    pages = "13229--13251",
+    ISBN = "979-8-89176-390-6",
 }
 ```
