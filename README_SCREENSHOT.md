@@ -167,3 +167,24 @@ if __name__ == "__main__":
 - Complex patterns with many stitches may require longer wait times
 - The script captures the right bottom corner (canvas area) by default
 - Use `--full-page` to capture the entire interface including controls
+- Both scripts default to `headless=False` because CrochetPARADE's WebGL canvas has not
+  rendered reliably for us in headless Chromium on macOS. On Linux, headless mode with a
+  software GL fallback (e.g. `--headless=new` plus `--use-gl=swiftshader`, or running under
+  `xvfb-run`) has been more reliable for batch jobs — verify a few renders by eye before
+  trusting a large unattended batch.
+
+## Computing similarity to the reference image
+
+Once you have rendered screenshots for a set of patterns, `calculate_dino_similarity.py`
+(at the repo root) compares each rendered image against its reference product photo using
+DINO (ViT-Small, CLS-token cosine similarity):
+
+```bash
+python calculate_dino_similarity.py \
+    --patterns-json split_dataset/test.json \
+    --base-dir /path/to/valid_<model>_img_dirs \
+    --models qwen claude gemini
+```
+
+`batch_compare_images.py` computes the same DINO score alongside LPIPS, SSIM, a Wasserstein
+color-distribution distance, and CLIP similarity, and writes one CSV per model.

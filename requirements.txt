@@ -25,6 +25,13 @@ rouge-score>=0.1.2
 bert-score>=0.3.13
 sacrebleu>=2.3.0
 
+# Image similarity metrics (Required for calculate_dino_similarity.py / batch_compare_images.py)
+timm>=0.9.0
+scipy>=1.10.0
+scikit-image>=0.21.0
+opencv-python>=4.8.0
+lpips>=0.1.4
+
 # Model-specific dependencies (uncomment as needed)
 # deepseek-vl  # For DeepSeek-VL model tasks
 # qwen-vl-utils  # For Qwen2-VL model tasks
