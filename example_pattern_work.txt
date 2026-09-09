@@ -1,0 +1,15 @@
+# Irish crochet flower showcase
+# Design adapted from "Priscilla Irish Crochet Book, Number 1"
+# which is released in the public domain here:
+# https://www.antiquepatternlibrary.org/pub/PDF/6-JA034PrisIrish1.pdf
+# Note: The original uses British notation as well as strands. Here I rewrote it to use American notation, and replaced the strands with chains.
+# Design shown in figure 40 of the book:
+DEF: p=3ch,ss@1[%,%-4]
+DEF: ch=Copy(ch,1,1)
+DEF: sc=Copy(sc,1,1)
+6ch.Ring+1!,ss@[%,0]
+[ch,15sc].Ring1[]@Ring,ss@[%,0]
+ch,sk,sc,[2sc,<,p]*8,ss@[%,0],sc@Ring1[][0]
+$c=0$,@Ring1[][0],[7ch.chain_space[0,c++]+!,sk,>,sc]*8,ss@[-1,-1]
+$c=0$,([5sc,p,6sc,p,4sc]@chain_space[0,c++])*8,ss@[%,0]
+DOT:start=4

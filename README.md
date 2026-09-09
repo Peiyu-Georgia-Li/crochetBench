@@ -151,6 +151,8 @@ The model generates a **complete** CrochetPARADE program from full NL instructio
 - **Valid Pattern Rate** — fraction of generated programs that pass DSL validation and execute successfully
 - **Dino Similarity** — visual similarity between rendered outputs and reference crochet images
 
+To compute Dino Similarity, generated DSL programs are first rendered to images via CrochetPARADE's browser-based 3D simulator. See [QUICKSTART_SCREENSHOT.md](QUICKSTART_SCREENSHOT.md) for the automated (Playwright-driven) rendering pipeline used to batch-generate these renders.
+
 ---
 
 ## 🤖 Models Evaluated
@@ -194,6 +196,11 @@ pip install -r requirements.txt
 cd benchmark_task
 git clone https://codeberg.org/crochetparade/CrochetPARADE.git
 cd ..
+
+# 3b. (Optional) Install rendering dependencies for Dino Similarity
+# — automates CrochetPARADE to render DSL programs into images, see QUICKSTART_SCREENSHOT.md
+pip install -r requirements_screenshot.txt
+playwright install chromium
 
 # 4. Set up API keys
 cp .env.example .env
