@@ -63,7 +63,7 @@
 
 ---
 
-## 🙋 About
+## About
 
 CrochetBench is a benchmark for evaluating the ability of multimodal large language models to perform fine-grained, low-level procedural reasoning in the domain of crochet. Unlike prior benchmarks that focus on high-level description or visual question answering, CrochetBench shifts the emphasis from **describing to doing**: models are required to recognize stitches, select structurally appropriate instructions, generate crochet pattern instructions, and produce compilable crochet procedures.
 
@@ -78,7 +78,7 @@ CrochetBench exposes critical limitations in long-range symbolic reasoning and 3
 
 ---
 
-## ⚖️ License
+## License ⚖️ 
 
 This repository uses a dual license:
 
