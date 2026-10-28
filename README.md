@@ -417,24 +417,6 @@ CrochetBench 揭示了当前模型在长程符号推理和三维感知过程合�
 
 ---
 
-## 📝 引用
-
-如果您在研究中使用了 CrochetBench，请引用：
-
-```bibtex
-@inproceedings{peiyuli2026,
-  title     = {CrochetBench: Can Vision-Language Models Move from Describing to
-               Doing in Crochet Domain?},
-  author    = {Li, Peiyu and Huang, Xiaobao and Hua, Ting and Chawla, Nitesh V.},
-  booktitle = {Proceedings of the 64th Annual Meeting of the Association for
-               Computational Linguistics (Volume 1: Long Papers)},
-  year      = {2026},
-  note      = {To appear}
-}
-```
-
----
-
 ## ⚖️ 许可证
 
 | 组件 | 许可证 |
