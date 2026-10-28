@@ -78,7 +78,7 @@ CrochetBench exposes critical limitations in long-range symbolic reasoning and 3
 
 ---
 
-## License ⚖️ 
+## License
 
 This repository uses a dual license:
 
@@ -100,7 +100,7 @@ The dataset is derived from crochet patterns published on [Yarnspirations](https
 
 ---
 
-## 🛎️ Benchmark Tasks
+## Benchmark Tasks
 
 The benchmark progresses from recognition → comprehension → generation → executable synthesis:
 
@@ -155,7 +155,7 @@ To compute Dino Similarity, generated DSL programs are first rendered to images 
 
 ---
 
-## 🤖 Models Evaluated
+## Models Evaluated
 
 ### Open-Source
 | Model | Size | Notes |
@@ -174,7 +174,7 @@ To compute Dino Similarity, generated DSL programs are first rendered to images 
 
 ---
 
-## 🧹 Setup
+## Setup
 
 ### Prerequisites
 
@@ -214,7 +214,7 @@ cp .env.example .env
 
 ---
 
-## 📦 Data Collection
+## Data Collection
 
 ### Using Pre-collected Data
 
@@ -242,7 +242,7 @@ python create_mc_dataset.py                      # build Task B dataset
 
 ---
 
-## 📊 Data Analysis
+## Data Analysis
 
 ```bash
 python data_analysis/analyze_img_links.py           # validate image links
@@ -252,7 +252,7 @@ python data_analysis/analyze_skill_level.py         # skill level distribution
 
 ---
 
-## 🔧 Fine-tuning
+## Fine-tuning
 
 The `finetune/` directory contains a **full fine-tuning** (no LoRA) experiment for **Qwen2-VL-7B-Instruct** on Task C (instruction generation). Data splits are in `split_dataset/`.
 
@@ -304,7 +304,7 @@ CUDA_VISIBLE_DEVICES=0 python train_qwen_task_c.py
 
 ---
 
-## 🙌 Running Evaluations
+## Running Evaluations
 
 All scripts are in `benchmark_task/`. Run `cd benchmark_task` first.
 
@@ -350,7 +350,7 @@ python eval_task_d_project_level.py <model>
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 crochetBench/
@@ -379,7 +379,28 @@ crochetBench/
 ```
 
 ---
+## Citation
 
+If you use CrochetBench in your research, please cite：
+
+```bibtex
+@inproceedings{li-etal-2026-crochetbench,
+    title = "{C}rochet{B}ench: Can Vision-Language Models Move from Describing to Doing in Crochet Domain?",
+    author = "Li, Peiyu  and
+      Huang, Xiaobao  and
+      Hua, Ting  and
+      Chawla, Nitesh V",
+    booktitle = "Proceedings of the 64th Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2026",
+    address = "San Diego, California, United States",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.acl-long.604/",
+    doi = "10.18653/v1/2026.acl-long.604",
+    pages = "13229--13251",
+    ISBN = "979-8-89176-390-6",
+}
+```
 ---
 
 <a id="chinese"></a>
@@ -712,7 +733,7 @@ crochetBench/
 
 ---
 
-## 📝 Citation / 引用
+## Citation / 引用
 
 If you use CrochetBench in your research, please cite / 如果您在研究中使用了 CrochetBench，请引用：
 
